@@ -1,4 +1,4 @@
-const APP_NAME = "nextarter-base";
+const APP_NAME = "antd-form-base";
 
 export default function Head() {
   return (
