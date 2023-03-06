@@ -24,8 +24,6 @@ export default function Head() {
             href="/icons/apple-touch-icon.png"
           />
           <link rel="icon" href="/app-icon.png" /> */}
-
-      <link rel="manifest" href="/manifest.json" />
     </>
   );
 }
