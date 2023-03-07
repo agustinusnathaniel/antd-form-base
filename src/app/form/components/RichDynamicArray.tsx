@@ -1,4 +1,4 @@
-import { Button, Form, Select, Space, Table } from "antd";
+import { Button, Form, Popconfirm, Select, Space, Table } from "antd";
 
 import NumericFormatInput from "app/form/components/NumericFormatInput";
 import { typeOptions } from "app/form/constants";
@@ -78,7 +78,15 @@ const RichDynamicArray = () => {
                 />
                 <Table.Column
                   render={(_, __, idx) => (
-                    <Button onClick={removeRow(idx)}>Remove</Button>
+                    <Popconfirm
+                      placement="leftTop"
+                      title="Are you sure to remove this item?"
+                      onConfirm={removeRow(idx)}
+                      okText="Yes"
+                      cancelText="No"
+                    >
+                      <Button>Remove</Button>
+                    </Popconfirm>
                   )}
                 />
               </Table>

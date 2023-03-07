@@ -1,10 +1,27 @@
-"use client";
-
-import { Outfit } from "@next/font/google";
-import { ConfigProvider, theme } from "antd";
+import type { Metadata } from "next";
 import "lib/styles/globals.css";
 
-const outfit = Outfit({ subsets: ["latin"] });
+const APP_NAME = "antd-form-base";
+
+export const metadata: Metadata = {
+  title: APP_NAME,
+  description: "Antd form example and reference",
+  icons: "/favicon.ico",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
+  applicationName: APP_NAME,
+  appleWebApp: {
+    capable: true,
+    title: APP_NAME,
+    statusBarStyle: "default",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  themeColor: "#FFFFFF",
+};
 
 export default function RootLayout({
   children,
@@ -13,21 +30,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
-      <head />
-      <body>
-        <ConfigProvider
-          theme={{
-            algorithm: theme.darkAlgorithm,
-            token: { fontFamily: outfit.style.fontFamily },
-          }}
-        >
-          {children}
-        </ConfigProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
