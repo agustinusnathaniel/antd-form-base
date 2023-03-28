@@ -3,13 +3,22 @@ import { Button, Form, Popconfirm, Select, Space, Table } from "antd";
 import NumericFormatInput from "app/form/components/NumericFormatInput";
 import { typeOptions } from "app/form/constants";
 
+import styles from "./styles.module.css";
+
+const fieldPrefix = "configurations";
+const validNumberMsg = "Value must be filled and above 0";
+
 const RichDynamicArray = () => {
   return (
-    <Space direction="vertical" size="small">
+    <Space
+      direction="vertical"
+      size="small"
+      className={styles["configuration-fields"]}
+    >
       <h4>Configurations</h4>
 
       <Form.List
-        name="configurations"
+        name={fieldPrefix}
         rules={[
           {
             validator: async (_, value) => {
@@ -46,7 +55,6 @@ const RichDynamicArray = () => {
                       rules={[
                         { required: true, message: "Type must be selected" },
                       ]}
-                      noStyle
                     >
                       <Select
                         options={typeOptions}
@@ -67,10 +75,65 @@ const RichDynamicArray = () => {
                           required: true,
                           type: "number",
                           min: 0,
-                          message: "Value must be filled and above 0",
+                          message: validNumberMsg,
                         },
                       ]}
-                      noStyle
+                    >
+                      <NumericFormatInput />
+                    </Form.Item>
+                  )}
+                />
+                <Table.Column
+                  title="Min"
+                  render={(field) => (
+                    <Form.Item
+                      {...field}
+                      name={[field.name, "min"]}
+                      dependencies={[[fieldPrefix, field.name, "max"]]}
+                      rules={[
+                        {
+                          required: true,
+                          type: "number",
+                          min: 0,
+                          message: validNumberMsg,
+                        },
+                        (formInstance) => ({
+                          message: "Min must not be greater than max",
+                          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                          validator: async (_, value) => {
+                            const max = formInstance.getFieldValue([
+                              fieldPrefix,
+                              field.name,
+                              "max",
+                            ]);
+                            if (value > max) {
+                              return Promise.reject(
+                                new Error("Min must not be greater than max")
+                              );
+                            }
+                            return Promise.resolve();
+                          },
+                        }),
+                      ]}
+                    >
+                      <NumericFormatInput />
+                    </Form.Item>
+                  )}
+                />
+                <Table.Column
+                  title="Max"
+                  render={(field) => (
+                    <Form.Item
+                      {...field}
+                      name={[field.name, "max"]}
+                      rules={[
+                        {
+                          required: true,
+                          type: "number",
+                          min: 0,
+                          message: validNumberMsg,
+                        },
+                      ]}
                     >
                       <NumericFormatInput />
                     </Form.Item>
