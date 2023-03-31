@@ -2,6 +2,8 @@ import { Button, Form, Popconfirm, Select, Space, Table } from "antd";
 
 import NumericFormatInput from "app/form/components/NumericFormatInput";
 import { typeOptions } from "app/form/constants";
+import type { Configuration } from "app/form/types";
+import { isDistinct } from "lib/utils/array/isDistinct";
 
 import styles from "./styles.module.css";
 
@@ -21,9 +23,24 @@ const RichDynamicArray = () => {
         name={fieldPrefix}
         rules={[
           {
+            message: "At least 1 configuration",
             validator: async (_, value) => {
               if (!value?.length) {
-                return Promise.reject(new Error("At least 1 configuration"));
+                return Promise.reject(new Error());
+              }
+              return true;
+            },
+          },
+          {
+            message: "Cannot select same type for multiple configuration",
+            validator: async (_, value) => {
+              const selectedTypeCollection =
+                value?.map((entry: Configuration) => entry.type) ?? [];
+              if (
+                !isDistinct(selectedTypeCollection) &&
+                selectedTypeCollection.length === value.length
+              ) {
+                return Promise.reject(new Error(""));
               }
               return true;
             },

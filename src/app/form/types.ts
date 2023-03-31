@@ -1,4 +1,4 @@
-type Configuration = {
+export type Configuration = {
   type: string;
   value: number;
   min: number;
