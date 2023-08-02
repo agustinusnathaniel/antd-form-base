@@ -1,7 +1,7 @@
 "use client";
 
-import { Outfit } from "@next/font/google";
 import { Button, Col, Divider, Form, Row } from "antd";
+import { Outfit } from "next/font/google";
 
 import MetaSection from "app/form/components/MetaSection";
 import RichDynamicArray from "app/form/components/RichDynamicArray";

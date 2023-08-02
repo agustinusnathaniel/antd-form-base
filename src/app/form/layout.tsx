@@ -1,7 +1,7 @@
 "use client";
 
-import { Outfit } from "@next/font/google";
 import { ConfigProvider, theme } from "antd";
+import { Outfit } from "next/font/google";
 
 const outfit = Outfit({ subsets: ["latin"] });
 
