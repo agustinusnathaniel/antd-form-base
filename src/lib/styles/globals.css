@@ -105,3 +105,7 @@ a {
     color-scheme: dark;
   }
 }
+
+.ant-form-item {
+  margin-bottom: 0;
+}

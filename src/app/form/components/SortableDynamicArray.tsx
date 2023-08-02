@@ -1,15 +1,23 @@
-import { Button, Form, Space, Table } from "antd";
+import { DragSortTable } from "@ant-design/pro-components";
+import type { FormInstance } from "antd";
+import { Button, Form, Space } from "antd";
 
+import type { ProTableColumns } from "app/form/components/configurations.constants";
 import {
   configurationColumns,
   fieldPrefix,
 } from "app/form/components/configurations.constants";
 import type { Configuration } from "app/form/types";
 import { isDistinct } from "lib/utils/array/isDistinct";
+import { handleDragSortEnd } from "lib/utils/table/handleDragSortEnd";
 
 import styles from "./styles.module.css";
 
-const RichDynamicArray = () => {
+type SortableDynamicArrayProps = {
+  form: FormInstance;
+};
+
+const SortableDynamicArray = ({ form }: SortableDynamicArrayProps) => {
   return (
     <Space
       direction="vertical"
@@ -60,11 +68,20 @@ const RichDynamicArray = () => {
 
           return (
             <Space direction="vertical" size="small" style={{ width: "100%" }}>
-              <Table
+              <DragSortTable
                 dataSource={fields}
                 rowKey="key"
+                toolBarRender={false}
+                search={false}
                 pagination={false}
-                columns={configurationColumns({ removeRow })}
+                columns={
+                  configurationColumns({
+                    removeRow,
+                    isSortable: true,
+                  }) as ProTableColumns
+                }
+                dragSortKey="sort"
+                onDragSortEnd={handleDragSortEnd(form, fieldPrefix)}
               />
 
               <Form.ErrorList errors={errors} />
@@ -78,4 +95,4 @@ const RichDynamicArray = () => {
   );
 };
 
-export default RichDynamicArray;
+export default SortableDynamicArray;

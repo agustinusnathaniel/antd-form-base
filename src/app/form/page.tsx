@@ -2,9 +2,11 @@
 
 import { Button, Col, Divider, Form, Row } from "antd";
 import { Outfit } from "next/font/google";
+import React from "react";
 
 import MetaSection from "app/form/components/MetaSection";
 import RichDynamicArray from "app/form/components/RichDynamicArray";
+import SortableDynamicArray from "app/form/components/SortableDynamicArray";
 import { useFormPage } from "app/form/hooks";
 import styles from "lib/styles/Home.module.css";
 
@@ -16,7 +18,10 @@ const validateMessages = {
 };
 
 const FormPage = () => {
+  const [isSortable, setIsSortable] = React.useState<boolean>(false);
   const { form, value, handleInvalidForm, handleSubmitForm } = useFormPage();
+
+  const handleIsSortable = () => setIsSortable((prev) => !prev);
 
   return (
     <main className={`${styles.main} ${outfit.className}`}>
@@ -40,7 +45,12 @@ const FormPage = () => {
 
         <MetaSection />
 
-        <RichDynamicArray />
+        <Button onClick={handleIsSortable}>Sortable</Button>
+        {isSortable ? (
+          <SortableDynamicArray form={form} />
+        ) : (
+          <RichDynamicArray />
+        )}
 
         <Row>
           <Col span={24}>
