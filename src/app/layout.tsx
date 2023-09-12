@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+import StyledComponentsRegistry from "lib/styles/AntdRegistry";
+import { fontSans } from "lib/styles/fonts";
+
+import Providers from "./providers";
 import "lib/styles/globals.css";
 
 const APP_NAME = "antd-form-base";
@@ -30,7 +35,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <StyledComponentsRegistry>
+          <Providers>
+            <main className={`${fontSans.className}`}>{children}</main>
+          </Providers>
+        </StyledComponentsRegistry>
+      </body>
     </html>
   );
 }
