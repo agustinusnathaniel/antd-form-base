@@ -11,6 +11,8 @@ import SortableDynamicArray from "app/form/components/SortableDynamicArray";
 import { defaultValues } from "app/form/constants";
 import { useFormPage } from "app/form/hooks";
 
+import styles from "./styles.module.css";
+
 const validateMessages = {
   // eslint-disable-next-line no-template-curly-in-string
   required: "${label} must be filled",
@@ -66,7 +68,7 @@ const FormPage = () => {
                 ]);
                 return (
                   <SortableItem>
-                    <Space style={{ width: "100%" }}>
+                    <Space className={styles["config-hierarchy_item"]}>
                       <MenuOutlined />
                       {itemValue}
                     </Space>
