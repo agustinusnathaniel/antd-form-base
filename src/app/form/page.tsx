@@ -1,11 +1,14 @@
 "use client";
 
-import { Button, Col, Divider, Form, Row } from "antd";
+import { MenuOutlined } from "@ant-design/icons";
+import { Button, Col, Divider, Form, Row, Space } from "antd";
 import React from "react";
+import SortableList, { SortableItem } from "react-easy-sort";
 
 import MetaSection from "app/form/components/MetaSection";
 import RichDynamicArray from "app/form/components/RichDynamicArray";
 import SortableDynamicArray from "app/form/components/SortableDynamicArray";
+import { defaultValues } from "app/form/constants";
 import { useFormPage } from "app/form/hooks";
 
 const validateMessages = {
@@ -15,7 +18,13 @@ const validateMessages = {
 
 const FormPage = () => {
   const [isSortable, setIsSortable] = React.useState<boolean>(false);
-  const { form, value, handleInvalidForm, handleSubmitForm } = useFormPage();
+  const {
+    form,
+    value,
+    handleInvalidForm,
+    handleSubmitForm,
+    handleSortConfigHierarchy,
+  } = useFormPage();
 
   const handleIsSortable = () => setIsSortable((prev) => !prev);
 
@@ -34,6 +43,7 @@ const FormPage = () => {
         padding: "1.5rem",
       }}
       validateMessages={validateMessages}
+      initialValues={defaultValues}
     >
       <div>
         <h4>Antd Form Example</h4>
@@ -44,6 +54,29 @@ const FormPage = () => {
 
       <Button onClick={handleIsSortable}>Sortable</Button>
       {isSortable ? <SortableDynamicArray form={form} /> : <RichDynamicArray />}
+
+      <Form.List name="configHierarchy">
+        {(fields) => {
+          return (
+            <SortableList onSortEnd={handleSortConfigHierarchy}>
+              {fields?.map((item) => {
+                const itemValue = form.getFieldValue([
+                  "configHierarchy",
+                  item.name,
+                ]);
+                return (
+                  <SortableItem>
+                    <Space style={{ width: "100%" }}>
+                      <MenuOutlined />
+                      {itemValue}
+                    </Space>
+                  </SortableItem>
+                );
+              })}
+            </SortableList>
+          );
+        }}
+      </Form.List>
 
       <Row>
         <Col span={24}>

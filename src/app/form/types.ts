@@ -1,3 +1,6 @@
+const configKeys = ["Hello", "Maybe", "Test"] as const;
+type ConfigKey = (typeof configKeys)[number];
+
 export type Configuration = {
   type: string;
   value: number;
@@ -11,4 +14,5 @@ export type CustomFormData = {
   price: number;
   value: number;
   configurations: Array<Configuration>;
+  configHierarchy: Array<ConfigKey>;
 };
